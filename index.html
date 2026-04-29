@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rashed Al-Qatarneh , Software Engineer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  /* THEME VARS */
+  [data-theme="dark"]{--bg:#0a0a0a;--fg:#f5f5f5;--muted:#888;--accent:#c8ff00;--card:#141414;--border:#222;--footer-name:#1a1a1a}
+  [data-theme="light"]{--bg:#f5f5f5;--fg:#111;--muted:#666;--accent:#2d6a00;--card:#e8e8e8;--border:#ccc;--footer-name:#ddd}
+
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden;line-height:1.6;transition:background .4s,color .4s}
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;backdrop-filter:blur(12px);background:rgba(10,10,10,.6)}
+  [data-theme="light"] nav{background:rgba(245,245,245,.8)}
+  .nav-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:-0.02em}
+  .nav-right{display:flex;align-items:center;gap:2rem}
+  .nav-links{display:flex;gap:2rem;font-size:.85rem;font-weight:500}
+  .nav-links a{transition:color .3s}
+  .nav-links a:hover{color:var(--accent)}
+
+  /* THEME TOGGLE */
+  .theme-toggle{background:none;border:1px solid var(--border);border-radius:100px;padding:.4rem .7rem;cursor:pointer;font-size:.85rem;color:var(--fg);transition:all .3s;display:flex;align-items:center;gap:.3rem}
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative}
+  .hero-photo{width:120px;height:120px;border-radius:50%;background:var(--card);border:2px solid var(--border);margin-bottom:2rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;opacity:0;transform:translateY(40px);overflow:hidden}
+  .hero-photo img{width:100%;height:100%;object-fit:cover}
+  .hero-name{font-family:'Space Grotesk',sans-serif;font-size:clamp(3rem,11vw,9rem);font-weight:900;line-height:.92;letter-spacing:-0.04em;opacity:0;transform:translateY(60px)}
+  .hero-sub{font-size:clamp(.95rem,2.2vw,1.35rem);color:var(--muted);margin-top:1.5rem;font-weight:500;opacity:0;transform:translateY(30px)}
+  .hero-badges{display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(20px)}
+  .badge{font-size:.7rem;padding:.4rem .9rem;border:1px solid var(--border);border-radius:100px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .hero-actions{display:flex;gap:1rem;margin-top:2rem;opacity:0;transform:translateY(20px)}
+  .btn-cv{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;background:var(--accent);color:var(--bg);font-weight:700;font-size:.85rem;border-radius:100px;transition:transform .3s,box-shadow .3s}
+  .btn-cv:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(200,255,0,.25)}
+  .hero-scroll{position:absolute;bottom:2rem;font-size:.75rem;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0}
+  .hero-scroll .arrow{width:1px;height:40px;background:var(--muted);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+  /* SHARED */
+  section{padding:7rem 3rem;max-width:1200px;margin:0 auto}
+  .label{font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);font-weight:600;margin-bottom:1.5rem}
+  h2.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:700;line-height:1.15;letter-spacing:-0.03em;max-width:800px}
+  h2.section-title span{color:var(--accent)}
+
+  /* STATS */
+  .intro-stats{display:flex;gap:3rem;margin-top:3rem;flex-wrap:wrap}
+  .stat{opacity:0;transform:translateY(20px)}
+  .stat-num{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:800;color:var(--accent)}
+  .stat-label{font-size:.8rem;color:var(--muted);margin-top:.25rem}
+
+  /* EXPERIENCE */
+  .timeline{margin-top:3rem;display:flex;flex-direction:column;gap:2.5rem}
+  .timeline-item{display:grid;grid-template-columns:200px 1fr;gap:2rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border);opacity:0;transform:translateY(40px)}
+  .timeline-date{font-size:.8rem;color:var(--muted);padding-top:.3rem;font-weight:500}
+  .timeline-item h3{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
+  .timeline-item .company{color:var(--accent);font-size:.85rem;font-weight:600;margin-bottom:.75rem}
+  .timeline-item ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+  .timeline-item li{color:var(--muted);font-size:.88rem;line-height:1.6;padding-left:1rem;position:relative}
+  .timeline-item li::before{content:'›';position:absolute;left:0;color:var(--accent);font-weight:700}
+
+  /* PROJECTS */
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2rem;margin-top:3rem}
+  .project-card{background:var(--card);border-radius:16px;padding:2.5rem;border:1px solid var(--border);opacity:0;transform:translateY(30px);transition:border-color .4s,transform .4s}
+  .project-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .project-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
+  .project-card p{color:var(--muted);font-size:.88rem;line-height:1.6;margin-bottom:1rem}
+  .project-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+  .project-tags span{font-size:.65rem;padding:.3rem .7rem;border:1px solid var(--border);border-radius:100px;color:var(--muted);font-weight:500}
+
+  /* SKILLS WITH ICONS */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
+  .skill-card{background:var(--card);border-radius:14px;padding:2rem;border:1px solid var(--border);opacity:0;transform:translateY(30px);transition:border-color .4s,transform .4s}
+  .skill-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .skill-card h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.6rem;color:var(--accent)}
+  .skill-icons{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:.8rem}
+  .skill-icons img{width:28px;height:28px;opacity:.7;transition:opacity .3s;filter:grayscale(.3)}
+  .skill-icons img:hover{opacity:1;filter:grayscale(0)}
+  .skill-card p{color:var(--muted);font-size:.85rem;line-height:1.6}
+
+  /* CERTIFICATIONS */
+  .certs{display:flex;gap:2rem;margin-top:3rem;flex-wrap:wrap;justify-content:center}
+  .cert-badge{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center;width:220px;opacity:0;transform:translateY(30px);transition:border-color .4s,transform .4s;display:block;color:inherit}
+  .cert-badge:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .cert-badge img{width:80px;height:80px;margin-bottom:1rem}
+  .cert-badge h4{font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+  .cert-badge p{font-size:.7rem;color:var(--muted)}
+
+  /* TESTIMONIALS */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:3rem}
+  .testimonial{background:var(--card);border-radius:16px;padding:2.5rem;border:1px solid var(--border);opacity:0;transform:translateY(30px)}
+  .testimonial blockquote{font-size:.95rem;line-height:1.7;color:var(--muted);font-style:italic;margin-bottom:1.5rem}
+  .testimonial-author{display:flex;align-items:center;gap:.75rem}
+  .testimonial-avatar{width:40px;height:40px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--accent)}
+  .testimonial-info h4{font-size:.85rem;font-weight:600}
+  .testimonial-info p{font-size:.75rem;color:var(--muted)}
+
+  /* BLOG */
+  .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:3rem}
+  .blog-card{background:var(--card);border-radius:16px;padding:2rem;border:1px solid var(--border);opacity:0;transform:translateY(30px);transition:border-color .4s,transform .4s}
+  .blog-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .blog-card .blog-date{font-size:.7rem;color:var(--muted);margin-bottom:.5rem}
+  .blog-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.5rem}
+  .blog-card p{color:var(--muted);font-size:.85rem;line-height:1.6}
+  .blog-tag{display:inline-block;font-size:.6rem;padding:.25rem .6rem;border:1px solid var(--border);border-radius:100px;color:var(--accent);font-weight:600;margin-top:.75rem}
+
+  /* VALUES / EDUCATION */
+  .values{background:var(--card);border-radius:24px;padding:5rem 3rem;margin:4rem auto;max-width:1200px}
+  .values h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.2;letter-spacing:-0.02em;max-width:700px;margin-bottom:3rem}
+  .values-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+  .value-item{padding:1.5rem 0;border-top:1px solid #333;opacity:0;transform:translateY(30px)}
+  .value-item h4{font-size:1.05rem;font-weight:600;margin-bottom:.4rem}
+  .value-item p{color:var(--muted);font-size:.85rem;line-height:1.6}
+
+  /* CTA */
+  .cta{text-align:center;padding:10rem 2rem}
+  .cta h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,6vw,4.2rem);font-weight:800;line-height:1.1;letter-spacing:-0.03em;max-width:800px;margin:0 auto 2rem}
+  .cta-btn{display:inline-block;padding:1rem 2.5rem;background:var(--accent);color:var(--bg);font-weight:700;font-size:1rem;border-radius:100px;transition:transform .3s,box-shadow .3s}
+  .cta-btn:hover{transform:scale(1.05);box-shadow:0 0 40px rgba(200,255,0,.3)}
+
+  /* FOOTER */
+  footer{padding:4rem 3rem;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:2rem;border-top:1px solid var(--border)}
+  .footer-name{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,7vw,5rem);font-weight:900;line-height:.9;letter-spacing:-0.04em;color:var(--footer-name)}
+  .footer-links{display:flex;gap:1.5rem;font-size:.85rem;color:var(--muted)}
+  .footer-links a:hover{color:var(--fg)}
+  .footer-copy{font-size:.7rem;color:#444;width:100%;text-align:center;margin-top:2rem}
+
+  .revealed{opacity:1!important;transform:translateY(0)!important;transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem}
+    section,.values{padding:4rem 1.5rem}
+    .timeline-item{grid-template-columns:1fr}
+    .timeline-date{padding-bottom:0}
+    footer{padding:3rem 1.5rem}
+    .intro-stats{gap:2rem}
+    .projects-grid{grid-template-columns:1fr}
+    .certs{flex-direction:column;align-items:center}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Rashed</div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
+      <span id="theme-icon">☀️</span>
+    </button>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1 class="hero-name" data-reveal>Rashed<br>Al-Qatarneh</h1>
+  <p class="hero-sub" data-reveal>Software Engineer · Payments & Distributed Systems · Cloud Infrastructure</p>
+  <div class="hero-badges" data-reveal>
+    <span class="badge">AWS Certified Cloud Practitioner</span>
+    <span class="badge">AWS Certified AI Practitioner</span>
+  </div>
+  <div class="hero-actions" data-reveal>
+    <a href="Rashed_AlQatarneh_CV.pdf" download class="btn-cv">⬇ Download CV</a>
+  </div>
+  <div class="hero-scroll" data-reveal><span>Scroll</span><div class="arrow"></div></div>
+</header>
+
+<section class="intro" id="about">
+  <div class="label" data-reveal>About</div>
+  <h2 class="section-title" data-reveal>Software Engineer specializing in <span>payment systems & distributed infrastructure</span> that serve millions of customers across global markets.</h2>
+  <div class="intro-stats">
+    <div class="stat" data-reveal><div class="stat-num">6+</div><div class="stat-label">Markets Served</div></div>
+    <div class="stat" data-reveal><div class="stat-num">250+</div><div class="stat-label">LeetCode Problems</div></div>
+    <div class="stat" data-reveal><div class="stat-num">2</div><div class="stat-label">AWS Certifications</div></div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="label" data-reveal>Experience</div>
+  <h2 class="section-title" data-reveal>From banking systems to <span>global-scale payment platforms</span>.</h2>
+  <div class="timeline">
+    <div class="timeline-item" data-reveal>
+      <div class="timeline-date">Jun 2025 – Present</div>
+      <div>
+        <h3>Software Development Engineer</h3>
+        <div class="company">Amazon</div>
+        <ul>
+          <li>Own the full transaction lifecycle , authorization, capture, refund, verification , across three major global payment processors in 6+ emerging markets.</li>
+          <li>Resolved a years-long stuck workflow problem by tracing processor failures to an issuer-side 3DS authentication defect, fixing 3 code-level bugs and unblocking refund processing.</li>
+          <li>Designed a real-time payment availability monitoring system that detects partner outages and fires alerts before customer-facing degradation.</li>
+          <li>Built PAIA , an AI-powered platform that automates payment processor onboarding across 16 compliance domains.</li>
+          <li>Migrated remittance & chargeback file processing to SFTP, deploying AWS CDK infrastructure with SecureCDK security blueprints.</li>
+          <li>Built a full-stack serverless performance dashboard that auto-generates reports for leadership.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item" data-reveal>
+      <div class="timeline-date">Jan – Jun 2025</div>
+      <div>
+        <h3>Java Developer</h3>
+        <div class="company">Bank Al-Bilad (outsourcing)</div>
+        <ul>
+          <li>Built a Customer Request Service with JWT authentication, LDAP login, and route access control for strict banking security.</li>
+          <li>Designed RESTful APIs with RBAC, applying SOLID principles and design patterns in a regulated financial environment.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item" data-reveal>
+      <div class="timeline-date">Sep 2024 – Jun 2025</div>
+      <div>
+        <h3>Java Developer</h3>
+        <div class="company">Inspire for Solutions Development</div>
+        <ul>
+          <li>Designed a scalable microservices banking app using Spring Boot, Kafka, GraphQL, and the Saga pattern, deployed via Docker.</li>
+          <li>Implemented end-to-end observability with Prometheus and Zipkin, and enforced fine-grained auth via Keycloak with RBAC.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="label" data-reveal>Skills & Tech</div>
+  <h2 class="section-title" data-reveal>The tools I use to <span>build, ship, and scale</span>.</h2>
+  <div class="skills-grid">
+    <div class="skill-card" data-reveal>
+      <h3>Languages</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+      </div>
+      <p>Java</p>
+    </div>
+    <div class="skill-card" data-reveal>
+      <h3>Frameworks</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="Spring">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" alt="GraphQL">
+      </div>
+      <p>Spring Boot · Spring Security · Spring Cloud · GraphQL</p>
+    </div>
+    <div class="skill-card" data-reveal>
+      <h3>AWS & Cloud</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" alt="AWS">
+      </div>
+      <p>Lambda · API Gateway · DynamoDB · CDK · S3 · SQS · Step Functions · EventBridge · SNS</p>
+    </div>
+    <div class="skill-card" data-reveal>
+      <h3>Messaging & Streaming</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" alt="Kafka">
+      </div>
+      <p>Kafka · SFTP · Event Streams</p>
+    </div>
+    <div class="skill-card" data-reveal>
+      <h3>Security & Auth</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oauth/oauth-original.svg" alt="OAuth2">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ssh/ssh-original-wordmark.svg" alt="SSH">
+      </div>
+      <p>JWT · LDAP · Keycloak · RBAC · OAuth2 · SSH · SecureCDK · GuardDuty</p>
+    </div>
+    <div class="skill-card" data-reveal>
+      <h3>Observability</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg" alt="Prometheus">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg" alt="Grafana">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opentelemetry/opentelemetry-original.svg" alt="Distributed Tracing">
+      </div>
+      <p>Prometheus · Zipkin · CloudWatch · Distributed Tracing</p>
+    </div>
+    <div class="skill-card" data-reveal>
+      <h3>Databases</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+      </div>
+      <p>MySQL · PostgreSQL · MongoDB</p>
+    </div>
+    <div class="skill-card" data-reveal>
+      <h3>Practices & Tools</h3>
+      <div class="skill-icons">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" alt="CI/CD">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" alt="Agile/Scrum">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="REST APIs">
+      </div>
+      <p>Git · REST APIs · Microservices · SOLID · Design Patterns · CI/CD · Docker · Agile/Scrum</p>
+    </div>
+  </div>
+</section>
+
+<section style="text-align:center">
+  <div class="label" data-reveal>Certifications</div>
+  <h2 class="section-title" style="margin:0 auto" data-reveal>Verified <span>cloud expertise</span>.</h2>
+  <div class="certs">
+    <a href="https://www.credly.com/badges/ace03d38-8970-4344-9ad6-c9f01b87bdf2/linked_in_profile" target="_blank" rel="noopener noreferrer" class="cert-badge" data-reveal>
+      <img src="https://images.credly.com/size/340x340/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png" alt="AWS Cloud Practitioner Badge">
+      <h4>AWS Certified Cloud Practitioner</h4>
+      <p>Amazon Web Services</p>
+    </a>
+    <a href="https://www.credly.com/badges/3843a0d9-a5b6-4c80-8bba-0d4d12b6f898/linked_in_profile" target="_blank" rel="noopener noreferrer" class="cert-badge" data-reveal>
+      <img src="https://images.credly.com/size/340x340/images/834f2c8d-2d2c-4ce7-9580-02a351c31626/image.png" alt="AWS AI Practitioner Badge">
+      <h4>AWS Certified AI Practitioner</h4>
+      <p>Amazon Web Services</p>
+    </a>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="label" data-reveal>Featured Projects</div>
+  <h2 class="section-title" data-reveal>Things I've <span>built and shipped</span>.</h2>
+  <div class="projects-grid">
+    <div class="project-card" data-reveal>
+      <h3>Payment AI Integration Authority</h3>
+      <p>AI-orchestrated platform that transforms payment partner onboarding from a fragmented, 40-week engineer-dependent process into guided, deterministic workflows completing in under 10 weeks. Uses a state-machine architecture where AI operates on controlled rails , prompts are auto-compiled from workflow state and user role, outputs are validated against schemas before progression, and the system self-heals on failures. Supports multi-user collaboration with role-based shared state enforcement, dynamic MCP tool orchestration per step, and AI context switching between heterogeneous models via structured data transformation. Reduced onboarding from ~1 integration/year to 6+/year per team, cutting 75%+ engineering effort and collapsing operational timelines from months to under a week.</p>
+      <div class="project-tags"><span>Java</span><span>AI Workflows</span><span>State Machine</span><span>MCP</span><span>AWS Lambda</span><span>DynamoDB</span><span>React</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3>Real-Time Payment Monitoring System</h3>
+      <p>End-to-end observability platform covering 9 payment processors (credit cards + buy-now-pay-later) across 4+ markets. Built an MCP server querying internal monitoring APIs for real-time P90 latency, availability, stuck workflows, and automated outage duration tracking processing ~50K events/day into DynamoDB. Designed custom availability metrics by implementing outage detection flags across all payment plugins, analyzing transaction status transitions to distinguish partner outages from customer-side errors.</p>
+      <div class="project-tags"><span>Python</span><span>MCP</span><span>Monitoring APIs</span><span>DynamoDB</span><span>Lambda</span><span>Observability</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3>Serverless Performance Dashboard</h3>
+      <p>Built a self-service leadership dashboard that replaced a manual monthly reporting process across all payment processors. The architecture is fully serverless , React frontend hitting API Gateway with JWT auth, backed by a Lambda that queries live monitoring APIs via MCP. Under the hood: a declarative collector engine where adding a new metric is a config entry, not a code change. The dashboard auto-computes year-over-year and period-over-period comparisons, tracks 30 goal targets with diff columns, handles ratio metrics like loan success rates through a formula engine, and ships with color-coded trend indicators, PDF export, and one-click email copy. What used to take hours of manual data collection now takes one click.</p>
+      <div class="project-tags"><span>React</span><span>Serverless</span><span>AWS Lambda</span><span>API Gateway</span><span>JWT</span><span>MCP</span><span>Python</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3>Microservices Banking Platform</h3>
+      <p>Production-grade banking system with independently deployable services communicating via Kafka event streams. Features GraphQL for flexible client queries, Saga pattern for distributed transaction consistency across accounts, Keycloak for centralized RBAC, and end-to-end observability with Prometheus metrics and Zipkin distributed tracing.</p>
+      <div class="project-tags"><span>Spring Boot</span><span>Kafka</span><span>GraphQL</span><span>Saga Pattern</span><span>Keycloak</span><span>Docker</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3><a href="https://github.com/RashedHaitham/Decentralized-Cluster-Based-NoSQL-DB-System" target="_blank" rel="noopener noreferrer">Decentralized NoSQL Database System ↗</a></h3>
+      <p>Multi-node NoSQL database built from scratch with three independent modules: a Database engine with custom query parsing, JSON document storage, schema validation, and B-tree indexing; a Bootstrapper for cluster node discovery and coordination; and a BankingSystem application layer. Features node affinity routing, file-based persistence, and full Docker Compose orchestration with Jenkins CI/CD.</p>
+      <div class="project-tags"><span>Java</span><span>Distributed Systems</span><span>Custom Query Engine</span><span>B-tree Indexing</span><span>Docker</span><span>Jenkins</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3><a href="https://github.com/RashedHaitham/FxDeals" target="_blank" rel="noopener noreferrer">FX Deals Data Warehouse ↗</a></h3>
+      <p>Bloomberg-style Foreign Exchange deals data warehouse with strict validation: currency pair conflict detection, auto-generated unique deal IDs, minimum amount enforcement, non-null field checks, and automatic timestamping. Spring Boot REST API backed by MySQL, containerized with Docker Compose and automated via Jenkins pipeline.</p>
+      <div class="project-tags"><span>Java</span><span>Spring Boot</span><span>MySQL</span><span>Docker</span><span>Jenkins</span><span>REST API</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3><a href="https://github.com/RashedHaitham/StudentGradingSystemWspring" target="_blank" rel="noopener noreferrer">Student Grading System ↗</a></h3>
+      <p>Full-stack student grade management platform built with Spring MVC. Features web-based CRUD for students and grades, server-side HTML rendering, form validation, and a layered architecture with controllers, services, and repository pattern.</p>
+      <div class="project-tags"><span>Java</span><span>Spring MVC</span><span>HTML</span><span>CRUD</span><span>Repository Pattern</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3><a href="https://github.com/RashedHaitham/unoGameEngine" target="_blank" rel="noopener noreferrer">UNO Game Engine ↗</a></h3>
+      <p>Extensible UNO card game engine with abstract card hierarchy supporting both default and custom game modes. Implements draw/discard pile management, player turn queue with direction reversal, custom exception handling, and a utility layer. Designed with inheritance and polymorphism for easy rule customization.</p>
+      <div class="project-tags"><span>Java</span><span>OOP</span><span>Inheritance</span><span>Game State Machine</span><span>Custom Exceptions</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3><a href="https://github.com/RashedHaitham/MaidCardGame" target="_blank" rel="noopener noreferrer">Maid Card Game ↗</a></h3>
+      <p>Classic "Old Maid" card game engine in Java with pair-matching elimination mechanics, automated card dealing, player hand management, and turn rotation logic. Built with clean OOP separation between game rules, player state, and deck operations.</p>
+      <div class="project-tags"><span>Java</span><span>OOP</span><span>Design Patterns</span><span>Game Logic</span></div>
+    </div>
+    <div class="project-card" data-reveal>
+      <h3><a href="https://github.com/RashedHaitham/KafkaEurekaEcommerce" target="_blank" rel="noopener noreferrer">Kafka E-Commerce Platform ↗</a></h3>
+      <p>Full microservices e-commerce platform with 5 independent services: OrderService, PaymentService, InventoryService, NotificationService, and a shared common-entities library. Uses Kafka for async event-driven communication between services, Eureka Server for service discovery, and an API Gateway for unified routing. Orchestrated with Docker Compose.</p>
+      <div class="project-tags"><span>Java</span><span>Kafka</span><span>Eureka</span><span>API Gateway</span><span>Microservices</span><span>Docker</span></div>
+    </div>
+  </div>
+</section>
+
+
+
+<div class="values">
+  <div class="label" data-reveal>Education</div>
+  <h2 data-reveal>B.Sc. in Computer Science , University of Jordan</h2>
+  <div class="values-list" style="margin-top:2rem">
+    <div class="value-item" data-reveal><h4>GPA: Very Good</h4><p>Graduated 2020 – 2024 with a strong foundation in algorithms, systems, and software engineering.</p></div>
+    <div class="value-item" data-reveal><h4>Problem Solving</h4><p>Manara Program graduate. Solved 250+ LeetCode problems across data structures, graphs, and dynamic programming.</p></div>
+    <div class="value-item" data-reveal><h4>Languages</h4><p>Arabic (native) · English (professional) · Russian (intermediate)</p></div>
+    <div class="value-item" data-reveal><h4>AWS Certified ×2</h4><p>AWS Certified Cloud Practitioner and AWS Certified AI Practitioner.</p></div>
+  </div>
+</div>
+
+<section class="cta" id="contact">
+  <h2 data-reveal>Let's build something that scales.</h2>
+  <a href="mailto:rashedhaitham188@gmail.com" class="cta-btn" data-reveal>rashedhaitham188@gmail.com</a>
+</section>
+
+<footer>
+  <div class="footer-name">Rashed<br>Al-Qatarneh</div>
+  <div class="footer-links">
+    <a href="mailto:rashedhaitham188@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/rashed-al-qatarneh" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="tel:+962770349973">+962 770 349 973</a>
+  </div>
+  <div class="footer-copy">&copy; <span id="year"></span> Rashed Al-Qatarneh · Software Engineer · Amman, Jordan</div>
+</footer>
+
+<script>
+function toggleTheme(){
+  const h=document.documentElement,i=document.getElementById('theme-icon');
+  if(h.getAttribute('data-theme')==='dark'){h.setAttribute('data-theme','light');i.textContent='🌙'}
+  else{h.setAttribute('data-theme','dark');i.textContent='☀️'}
+  localStorage.setItem('theme',h.getAttribute('data-theme'));
+}
+(function(){const t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme-icon').textContent=t==='dark'?'☀️':'🌙'}})();
+document.getElementById('year').textContent=new Date().getFullYear();
+const io=new IntersectionObserver(entries=>{let d=0;entries.forEach(e=>{if(e.isIntersecting){e.target.style.transitionDelay=d+'ms';e.target.classList.add('revealed');d+=100;io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
